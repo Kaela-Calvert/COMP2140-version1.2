@@ -36,7 +36,7 @@ public class SecondFrame extends JFrame {
 	private ArrayList<Bike> blist = new ArrayList<Bike>();
 	static ArrayList<Bike> availBikes = new ArrayList<Bike>();
 	private ArrayList<Bike> bikesToshow = new ArrayList<Bike>();
-	private User currentUser;
+	//private User currentUser;
 
 	// Class Constructor
 	SecondFrame() {
@@ -123,8 +123,8 @@ public class SecondFrame extends JFrame {
 	}
 
 	// searches for the bike to see if it exists
-	public boolean bikeExist(int bicycleID) {
-		for (Bike bike : availBikes) {
+	public boolean bikeExist(int bicycleID, ArrayList<Bike> list) {
+		for (Bike bike : list) {
 			if (bike.getBicycleID() == (bicycleID)) {
 				return true;
 			}
@@ -268,18 +268,25 @@ public class SecondFrame extends JFrame {
 
 				new MessageFrame("Enter a Valid ID", "Error");
 
-			} else {
+			} else if (txtId.getText().isEmpty() == false) {
 				try {
 
 					bikeID = Integer.parseInt(txtId.getText());
-					enterid.dispose();
-					new Time(findBike(bikeID).getPrice());
+					if (bikeExist(bikeID, bikesToshow)) {
+						enterid.dispose();
+						new Time(findBike(bikeID).getPrice());
+					}
+
+					else {
+						new MessageFrame("Bike not available", "Error");
+					}
 
 				} catch (NumberFormatException n) {
 					new MessageFrame("Enter Numbers only", "Error");
 				}
 
 			}
+
 		}
 	}
 
@@ -367,7 +374,7 @@ public class SecondFrame extends JFrame {
 				if (timeSelected == false) {
 					new MessageFrame("Please select a time", "Error");
 				}
-				//System.out.println(Login.findUser(Login.id).getfname());
+				// System.out.println(Login.findUser(Login.id).getfname());
 				if (timeSelected == true) {
 					frame.dispose();
 					rentBike(bikeID);
@@ -376,11 +383,11 @@ public class SecondFrame extends JFrame {
 					loadBikesbyLocation(BicycleRental.location, availBikes);
 					showTableData(bikesToshow);
 					new UpdateFile();
-					
-					new InvoiceFile(Login.findUser(Login.id).getfname(), Login.findUser(Login.id).getlname(), hour, bikePrice, payPrice, currentDateTime);
-					
+
+					new InvoiceFile(Login.findUser(Login.id).getfname(), Login.findUser(Login.id).getlname(), hour,
+							bikePrice, payPrice, currentDateTime);
+
 					new Invoice();
-					
 
 				}
 
