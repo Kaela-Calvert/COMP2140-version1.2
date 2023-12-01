@@ -105,8 +105,10 @@ public class RateBike extends JFrame {
 
     public class CloseButtonListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            thisframe.setVisible(false);
+            // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            // thisframe.setVisible(false);
+            dispose();
+            MainPage main = new MainPage();
         }
     }
 
@@ -171,8 +173,7 @@ public class RateBike extends JFrame {
                 writer.newLine();
 
                 JOptionPane.showMessageDialog(thisframe, "Thank you for your rating!");
-                dispose();
-                MainPage main = new MainPage();
+                
 
             } catch (NumberFormatException nfe) {
                 JOptionPane.showMessageDialog(thisframe, "Invalid ID number");
